@@ -449,7 +449,7 @@
             <h2><span class="section-icon">🚀</span>Ready to Get Started?</h2>
             <p>Your DIY-MOD extension is now installed and ready to use!</p>
             <div>
-                <a href="#" class="cta-button" onclick="openPopup()">Open Extension Popup</a>
+                <a href="#" class="cta-button" onclick="openPopup()">How to Access Control Panel</a>
                 <a href="#" class="cta-button" onclick="visitTwitter()">Try on Twitter/X</a>
                 <a href="#" class="cta-button" onclick="visitReddit()">Try on Reddit</a>
             </div>
@@ -460,33 +460,16 @@
     <script>
         // Google Sign-in function
         function signInWithGoogle() {
-            // This will communicate with the extension
-            if (typeof chrome !== 'undefined' && chrome.runtime) {
-                chrome.runtime.sendMessage({type: 'signIn'}, (response) => {
-                    if (response && response.success) {
-                        alert('Successfully signed in! Welcome, ' + (response.user?.name || 'User') + '!');
-                        // Update UI to show signed-in state
-                        updateSignInState(true, response.user);
-                    } else {
-                        alert('Sign-in failed. Please try again.');
-                    }
-                });
-            } else {
-                // Fallback if not in extension context
-                alert('Please install the DIY-MOD extension first, then click the extension icon to sign in.');
-            }
+            // Since this is a web page, not an extension page, we can't directly communicate with the extension
+            // Instead, provide clear instructions to the user
+            alert('To sign in with Google:\n\n1. Click the DIY-MOD extension icon in your browser toolbar\n2. Click the "Sign in with Google" button in the popup\n3. Complete the Google authentication flow\n\nThe extension popup is where you manage your account and settings!');
         }
 
         // Open extension popup
         function openPopup() {
-            if (typeof chrome !== 'undefined' && chrome.runtime) {
-                // Try to open the popup - this might not work from a webpage
-                chrome.tabs.getCurrent((tab) => {
-                    alert('Click the DIY-MOD extension icon in your browser toolbar to open the control panel.');
-                });
-            } else {
-                alert('Please install the DIY-MOD extension first.');
-            }
+            // We can't programmatically open the popup from a web page for security reasons
+            // Provide instructions instead
+            alert('To access the DIY-MOD control panel:\n\n1. Look for the DIY-MOD icon in your browser toolbar (top-right area)\n2. Click the icon to open the control panel\n3. From there you can add filters, adjust settings, and sign in\n\nIf you don\'t see the icon, click the puzzle piece icon (Extensions) and pin DIY-MOD.');
         }
 
         // Navigate to Twitter
@@ -509,15 +492,10 @@
             }
         }
 
-        // Check if user is already signed in when page loads
+        // Page initialization
         document.addEventListener('DOMContentLoaded', () => {
-            if (typeof chrome !== 'undefined' && chrome.runtime) {
-                chrome.runtime.sendMessage({type: 'getUserInfo'}, (response) => {
-                    if (response && response.user && response.user.isGoogle) {
-                        updateSignInState(true, response.user.user);
-                    }
-                });
-            }
+            // Add helpful note about extension communication
+            console.log('DIY-MOD Welcome Page: This page provides information about the extension. To interact with the extension directly, use the browser toolbar icon.');
         });
 
         // Add some interactive effects
